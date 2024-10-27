@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  credentials ={
+    username: '',
+    password: ''
+  };
 
   ngOnInit() {
   }
+  constructor(private navCtrl: NavController){}
+
+  onSubmit(){
+    if (this.credentials.username && this.credentials.password){
+      
+      this.navCtrl.navigateForward(['/home'], {
+        queryParams: { 
+          username: this.credentials.username,
+        }
+    });
+  }
+}
 
 }

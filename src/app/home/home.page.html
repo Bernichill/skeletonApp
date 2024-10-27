@@ -1,19 +1,104 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Aplicacion de Bernardo!
+      SkeletonApp
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Hola</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-item>
+  <ion-label>
+    <h1>Bienvenido!</h1>
+  </ion-label>
+</ion-item>
 
-  <div id="container">
-    <strong>Pronto... acá comenzaremos una nueva historia</strong>
+<ion-list>
+  <ion-avatar aria-hidden="true" slot="start">
+    <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+  </ion-avatar>
+  <ion-label>Username: {{username}}</ion-label>
+</ion-list>
+
+<ion-item>
+  <ion-label>
+    <h3>Información Adicional</h3>
+  </ion-label>
+</ion-item>
+
+<form (ngSubmit)="submitForm()" #homeForm="ngForm">
+  <ion-list>
+    <ion-item>
+      <ion-label position="fixed">Nombre</ion-label>
+      
+      <ion-card #card>
+        <ion-card-content>
+
+        <ion-input #nombreInput type="text" [(ngModel)]="nombre" name="nombre" required placeholder="Ingrese Nombre"></ion-input>
+      
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Apellido</ion-label>
+      
+      <ion-card #card>
+        <ion-card-content>
+
+      <ion-input type="text" [(ngModel)]="apellido" name="apellido" required placeholder="Ingrese Apellido"></ion-input>
+
+      </ion-card-content>
+    </ion-card>
+
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Nivel Educación</ion-label>
+      
+      <ion-card #card>
+        <ion-card-content>
+      
+      <ion-select [(ngModel)]="nivelEducacional" name="nivelEducacional" placeholder="Seleccione Nivel" required>
+        <ion-select-option value="educacionBasica">Educación Básica</ion-select-option>
+        <ion-select-option value="educacionMedia">Educación Media</ion-select-option>
+        <ion-select-option value="educacionSuperior">Educación Superior</ion-select-option>
+        <ion-select-option value="educacionPostgrado">Postgrado</ion-select-option>
+      </ion-select>
+
+      </ion-card-content>
+    </ion-card>
+
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Fecha Nacimiento</ion-label>
+      <ion-datetime 
+        displayFormat="MMM DD, YYYY " 
+        pickerFormat="MMM DD, YYYY " 
+        presentation="date"
+        [(ngModel)]="fechaNacimiento"
+        name="fechaNacimiento"
+        required>
+      </ion-datetime>
+    </ion-item>
+
+  </ion-list>
+
+  <!-- Mensaje de advertencia para que complete todos los required -->
+  <div *ngIf="homeForm.invalid && (homeForm.dirty || homeForm.touched)">
+    <ion-text color="danger">Debe completar todos los campos para poder presionar "MOSTRAR"</ion-text>
   </div>
-</ion-content>
+  
+  <!-- DENTRO DEL BOTÓN DE SUBMIT SE INCLUYE EL ID de Mostrar Info para que se muestre la alerta -->
+  <ion-button id="mostrarInfo" type="submit" [disabled]="!homeForm.form.valid">Mostrar</ion-button>
+    
+  <ion-alert
+    trigger="mostrarInfo"
+    header="Usuario"
+    message="Su nombre es {{nombre}} {{apellido}}"
+    [buttons]="['Yes']">
+  </ion-alert>
+
+  <ion-button type="button" (click)="clearForm()">Limpiar</ion-button>
+
+</form>

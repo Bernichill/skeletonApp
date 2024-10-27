@@ -2,11 +2,15 @@ import { Component, ElementRef, ViewChildren, AfterViewInit, QueryList } from '@
 import { ActivatedRoute } from '@angular/router';
 import { AnimationController, Animation, IonCard } from '@ionic/angular';
 
+
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  
 })
+
 export class HomePage implements AfterViewInit {
   @ViewChildren(IonCard, { read: ElementRef }) cards: QueryList<ElementRef<HTMLIonCardElement>> | undefined;
 

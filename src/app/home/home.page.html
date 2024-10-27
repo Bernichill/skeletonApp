@@ -12,6 +12,7 @@
   </ion-label>
 </ion-item>
 
+
 <ion-list>
   <ion-avatar aria-hidden="true" slot="start">
     <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
@@ -72,15 +73,18 @@
 
     <ion-item>
       <ion-label position="fixed">Fecha Nacimiento</ion-label>
-      <ion-datetime 
-        displayFormat="MMM DD, YYYY " 
-        pickerFormat="MMM DD, YYYY " 
-        presentation="date"
-        [(ngModel)]="fechaNacimiento"
-        name="fechaNacimiento"
-        required>
-      </ion-datetime>
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Fecha Nacimiento</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      
     </ion-item>
+    
+    
 
   </ion-list>
 
@@ -99,6 +103,9 @@
     [buttons]="['Yes']">
   </ion-alert>
 
-  <ion-button type="button" (click)="clearForm()">Limpiar</ion-button>
+  <ion-button type="button" (click)="clearForm()">Limpiar</ion-button>  
+
+
+
 
 </form>

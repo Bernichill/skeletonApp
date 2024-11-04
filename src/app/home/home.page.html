@@ -1,111 +1,58 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      SkeletonApp
-    </ion-title>
+    <ion-title>SafeDriving App</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/login">Salir</ion-button> 
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">Home</ion-button>
+      <ion-button routerLink="/historial">Historial</ion-button>
+      <ion-button routerLink="/checklist">CheckList</ion-button>
+      <ion-button routerLink="/perfil">Perfil</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-item>
-  <ion-label>
-    <h1>Bienvenido!</h1>
-  </ion-label>
-</ion-item>
+<ion-content>
+  <div class="content-wrapper">
+    <mat-card class="welcome-card">
+      <mat-card-header>
+        <mat-card-title class="welcome-title">Bienvenido a la Conducción con SafeDriving!</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="welcome-text">Estamos encantados de tenerte aquí. Explora las diferentes funcionalidades y mejora tu experiencia.</p>
+      </mat-card-content>
+    </mat-card>
 
-
-<ion-list>
-  <ion-avatar aria-hidden="true" slot="start">
-    <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-  </ion-avatar>
-  <ion-label>Username: {{username}}</ion-label>
-</ion-list>
-
-<ion-item>
-  <ion-label>
-    <h3>Información Adicional</h3>
-  </ion-label>
-</ion-item>
-
-<form (ngSubmit)="submitForm()" #homeForm="ngForm">
-  <ion-list>
-    <ion-item>
-      <ion-label position="fixed">Nombre</ion-label>
-      
-      <ion-card #card>
-        <ion-card-content>
-
-        <ion-input #nombreInput type="text" [(ngModel)]="nombre" name="nombre" required placeholder="Ingrese Nombre"></ion-input>
-      
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="fixed">Apellido</ion-label>
-      
-      <ion-card #card>
-        <ion-card-content>
-
-      <ion-input type="text" [(ngModel)]="apellido" name="apellido" required placeholder="Ingrese Apellido"></ion-input>
-
-      </ion-card-content>
-    </ion-card>
-
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="fixed">Nivel Educación</ion-label>
-      
-      <ion-card #card>
-        <ion-card-content>
-      
-      <ion-select [(ngModel)]="nivelEducacional" name="nivelEducacional" placeholder="Seleccione Nivel" required>
-        <ion-select-option value="educacionBasica">Educación Básica</ion-select-option>
-        <ion-select-option value="educacionMedia">Educación Media</ion-select-option>
-        <ion-select-option value="educacionSuperior">Educación Superior</ion-select-option>
-        <ion-select-option value="educacionPostgrado">Postgrado</ion-select-option>
-      </ion-select>
-
-      </ion-card-content>
-    </ion-card>
-
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="fixed">Fecha Nacimiento</ion-label>
-      
-      <mat-form-field appearance="fill">
-        <mat-label>Fecha Nacimiento</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required>
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      
-    </ion-item>
-    
-    
-
-  </ion-list>
-
-  <!-- Mensaje de advertencia para que complete todos los required -->
-  <div *ngIf="homeForm.invalid && (homeForm.dirty || homeForm.touched)">
-    <ion-text color="danger">Debe completar todos los campos para poder presionar "MOSTRAR"</ion-text>
+    <mat-card class="features-card">
+      <mat-card-content>
+        <ion-list>
+          <ion-item routerLink="/perfil" detail>
+            <ion-icon slot="start" name="information-circle"></ion-icon>
+            <ion-label>
+              <h2>Perfil</h2>
+              <p>Accede a tus datos y gestiona tu perfil.</p>
+            </ion-label>
+          </ion-item>
+          <ion-item routerLink="/checklist" detail>
+            <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+            <ion-label>
+              <h2>CheckList</h2>
+              <p>Revisa tus tareas y mantente organizado.</p>
+            </ion-label>
+          </ion-item>
+          <ion-item routerLink="/historial" detail>
+            <ion-icon slot="start" name="archive"></ion-icon>
+            <ion-label>
+              <h2>Historial</h2>
+              <p>Consulta el historial de los checklist completados.</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </mat-card-content>
+    </mat-card>
   </div>
-  
-  <!-- DENTRO DEL BOTÓN DE SUBMIT SE INCLUYE EL ID de Mostrar Info para que se muestre la alerta -->
-  <ion-button id="mostrarInfo" type="submit" [disabled]="!homeForm.form.valid">Mostrar</ion-button>
-    
-  <ion-alert
-    trigger="mostrarInfo"
-    header="Usuario"
-    message="Su nombre es {{nombre}} {{apellido}}"
-    [buttons]="['Yes']">
-  </ion-alert>
-
-  <ion-button type="button" (click)="clearForm()">Limpiar</ion-button>  
-
-
-
-
-</form>
+</ion-content>

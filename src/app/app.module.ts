@@ -10,9 +10,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import {MatTableModule} from '@angular/material/table';
+
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserAnimationsModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserAnimationsModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule, MatTableModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })

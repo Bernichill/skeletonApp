@@ -1,15 +1,17 @@
 <ion-header>
   <ion-toolbar color="light">
-    <ion-title class="title-large"> SkeletonApp </ion-title>
+    <ion-title class="title-large"> SafeDriving App </ion-title>
     <ion-text>Aquí comienza todo</ion-text>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar> <!-- Barra de progreso -->
+  
   <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
     <ion-item>
       <ion-label position="floating">Nombre de usuario</ion-label>
-        <ion-input
+      <ion-input
         type="text"
         name="username"
         required
@@ -17,10 +19,8 @@
         maxlength="8"
         pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]+$"
         [(ngModel)]="credentials.username">
-        </ion-input>
+      </ion-input>
     </ion-item>
-
-    <!--AGREGUE UNA VERIFICACION PARA QUE NOS AVISE QUE FALTA EN EL CAMPO DE USUARIO-->
 
     <div *ngIf="loginForm.controls['username']?.invalid && (loginForm.controls['username']?.dirty || loginForm.controls['username']?.touched)">
       <ion-text color="danger">
@@ -33,7 +33,7 @@
 
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-        <ion-input
+      <ion-input
         type="password"
         name="password"
         required
@@ -41,11 +41,9 @@
         maxlength="4"
         pattern="^\d{4}$"
         [(ngModel)]="credentials.password">
-        </ion-input>
+      </ion-input>
     </ion-item>
 
-
-    <!--AGREGUE UNA VERIFICACION PARA QUE NOS AVISE QUE FALTA EN EL CAMPO DE CONTRASEÑA-->
     <div *ngIf="loginForm.controls['password']?.invalid && (loginForm.controls['password']?.dirty || loginForm.controls['password']?.touched)">
       <ion-text color="danger">
         <p *ngIf="loginForm.controls['password']?.errors?.['required']">La contraseña es requerida.</p>
@@ -55,7 +53,6 @@
       </ion-text>
     </div>
 
-    
     <ion-button expand="full" type="submit" [disabled]="!loginForm.form.valid">Iniciar Sesión</ion-button>
   </form>
 </ion-content>

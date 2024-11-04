@@ -11,6 +11,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatLabel } from '@angular/material/form-field';
 import { MatHint } from '@angular/material/form-field';
 
+import {MatCardModule} from '@angular/material/card';
+
 import {MatInput, MatInputModule} from '@angular/material/input';
 
 import { HomePageRoutingModule } from './home-routing.module';
@@ -31,6 +33,8 @@ import { HomePageRoutingModule } from './home-routing.module';
     MatHint,
     MatInputModule,
     MatInput,
+    MatCardModule,
+    
   ],
   declarations: [HomePage]
 })

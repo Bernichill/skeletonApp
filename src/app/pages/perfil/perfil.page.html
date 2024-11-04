@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>SafeDriving App</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/login">Salir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">Home</ion-button>
+      <ion-button routerLink="/historial">Historial</ion-button>
+      <ion-button routerLink="/checklist">CheckList</ion-button>
+      <ion-button routerLink="/perfil">Perfil</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-item>
+  <ion-label>
+    <h1>Bienvenido!</h1>
+  </ion-label>
+</ion-item>
+
+<ion-list>
+  <ion-avatar aria-hidden="true" slot="start">
+    <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+  </ion-avatar>
+  <ion-label>Usuario: {{username}}</ion-label>
+</ion-list>
+
+<ion-item>
+  <ion-label>
+    <h3>Información del Perfil</h3>
+  </ion-label>
+</ion-item>
+
+<form (ngSubmit)="submitForm()" #perfilForm="ngForm">
+  <ion-list>
+    <ion-item>
+      <ion-label position="fixed">Nombre</ion-label>
+      <ion-input type="text" [(ngModel)]="nombre" name="nombre" required placeholder="Ingrese Nombre"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Apellido</ion-label>
+      <ion-input type="text" [(ngModel)]="apellido" name="apellido" required placeholder="Ingrese Apellido"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Fecha de Nacimiento</ion-label>
+      <ion-input type="date" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Faena de Trabajo</ion-label>
+      <ion-input type="text" [(ngModel)]="faenaTrabajo" name="faenaTrabajo" required placeholder="Ingrese Faena de Trabajo"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="perfilForm.invalid && (perfilForm.dirty || perfilForm.touched)">
+    <ion-text color="danger">Debe completar todos los campos para poder presionar "Mostrar"</ion-text>
+  </div>
+
+  <ion-button id="mostrarInfo" type="submit" [disabled]="!perfilForm.form.valid">Mostrar</ion-button>
+
+  <ion-alert
+    trigger="mostrarInfo"
+    header="Datos del Perfil"
+    message="Su nombre es {{nombre}} {{apellido}} | Fecha de Nacimiento: {{fechaNacimiento}} | Faena de Trabajo: {{faenaTrabajo}}"
+    [buttons]="['OK']">
+  </ion-alert>
+
+  <ion-button type="button" (click)="clearForm()">Limpiar</ion-button>
+</form>

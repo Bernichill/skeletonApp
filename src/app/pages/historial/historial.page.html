@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>SafeDriving App</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/login">Salir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">Home</ion-button>
+      <ion-button routerLink="/historial">Historial</ion-button>
+      <ion-button routerLink="/checklist">CheckList</ion-button>
+      <ion-button routerLink="/perfil">Perfil</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Patente Column -->
+      <ng-container matColumnDef="patente">
+        <th mat-header-cell *matHeaderCellDef> Patente </th>
+        <td mat-cell *matCellDef="let element"> {{ element.patente }} </td>
+      </ng-container>
+
+      <!-- Bocina Column -->
+      <ng-container matColumnDef="bocina">
+        <th mat-header-cell *matHeaderCellDef> Bocina </th>
+        <td mat-cell *matCellDef="let element"> Estado: {{ element.bocina.status }} | Comentarios: {{ element.bocina.comments || 'N/A' }} </td>
+      </ng-container>
+
+      <!-- Aire Acondicionado Column -->
+      <ng-container matColumnDef="aireAcondicionado">
+        <th mat-header-cell *matHeaderCellDef> Aire Acondicionado </th>
+        <td mat-cell *matCellDef="let element"> Estado: {{ element.aireAcondicionado.status }} | Comentarios: {{ element.aireAcondicionado.comments || 'N/A' }} </td>
+      </ng-container>
+
+      <!-- Neumático Repuesto Column -->
+      <ng-container matColumnDef="neumaticoRepuesto">
+        <th mat-header-cell *matHeaderCellDef> Neumático Repuesto </th>
+        <td mat-cell *matCellDef="let element"> Estado: {{ element.neumaticoRepuesto.status }} | Comentarios: {{ element.neumaticoRepuesto.comments || 'N/A' }} </td>
+      </ng-container>
+
+      <!-- Airbag Column -->
+      <ng-container matColumnDef="airbag">
+        <th mat-header-cell *matHeaderCellDef> Airbag </th>
+        <td mat-cell *matCellDef="let element"> Estado: {{ element.airbag.status }} | Comentarios: {{ element.airbag.comments || 'N/A' }} </td>
+      </ng-container>
+
+      <!-- Baliza Column -->
+      <ng-container matColumnDef="baliza">
+        <th mat-header-cell *matHeaderCellDef> Baliza </th>
+        <td mat-cell *matCellDef="let element"> Estado: {{ element.baliza.status }} | Comentarios: {{ element.baliza.comments || 'N/A' }} </td>
+      </ng-container>
+
+      <!-- Radio Column -->
+      <ng-container matColumnDef="radio">
+        <th mat-header-cell *matHeaderCellDef> Radio </th>
+        <td mat-cell *matCellDef="let element"> Estado: {{ element.radio.status }} | Comentarios: {{ element.radio.comments || 'N/A' }} </td>
+      </ng-container>
+
+      <!-- Header and Row Declarations -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+</ion-content>

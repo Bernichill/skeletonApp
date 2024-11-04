@@ -16,9 +16,18 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
-    path: 'contacto',
-    loadChildren: () => import('./pages/contacto/contacto.module').then(m => m.ContactoPageModule)
+    path: 'checklist',
+    loadChildren: () => import('./pages/checklist/checklist.module').then( m => m.ChecklistPageModule)
   },
+  {
+    path: 'historial',
+    loadChildren: () => import('./pages/historial/historial.module').then( m => m.HistorialPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+
 ];
 
 

@@ -58,7 +58,7 @@ export class ChecklistPage implements OnInit {
         radio: { status: this.radioStatus, comments: this.radioComments },
       };
   
-      // Almacenar datos en el historial en localStorage
+      
       this.saveToLocalStorage(checklistData);
       alert('Checklist guardado exitosamente');
       this.resetFields();
@@ -70,12 +70,12 @@ export class ChecklistPage implements OnInit {
   }
 
   saveToLocalStorage(checklistData: any) {
-    // Obtener el historial existente
+    
     const historialGuardado = localStorage.getItem('historial');
     const historialArray = historialGuardado ? JSON.parse(historialGuardado) : [];
-    // Agregar el nuevo checklist
+    
     historialArray.push(checklistData);
-    // Guardar el nuevo historial en localStorage
+    
     localStorage.setItem('historial', JSON.stringify(historialArray));
   }
 

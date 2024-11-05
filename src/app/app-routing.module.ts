@@ -4,8 +4,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'  // Redirige desde la raíz al login
+    redirectTo: 'login', //esto es para redirigir a login y que siempre se empiece en esta pag
+    pathMatch: 'full'  
   },
   {
     path: 'login',

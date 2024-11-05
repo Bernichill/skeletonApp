@@ -1,33 +1,36 @@
 .table-container {
-    overflow-x: auto; /* Permitir desplazamiento horizontal si es necesario */
-    width: 100%; /* Asegúrate de que el contenedor de la tabla ocupe el 100% */
+    overflow-x: auto; 
+    width: 100%; 
   }
   
   table {
-    width: 100%; /* La tabla ocupa todo el ancho disponible */
-    border-collapse: collapse; /* Mejora la apariencia de la tabla */
+    width: 100%; 
+    border-collapse: collapse; 
   }
   
   th, td {
-    padding: 8px; /* Espaciado interno */
-    text-align: left; /* Alineación del texto */
-    word-wrap: break-word; /* Permitir que las palabras largas se dividan */
+    padding: 8px; 
+    text-align: left;
+    word-wrap: break-word;
   }
   
   th {
-    background-color: #f1f1f1; /* Color de fondo para los encabezados */
+    background-color: #f1f1f1;
   }
   
+
+  /* acá seguramos que la tabla no falle en el tamaño de teléfono */
+
   @media (max-width: 768px) {
     table {
-      display: block; /* Cambiar a block para permitir el desplazamiento */
-      overflow-x: auto; /* Habilitar desplazamiento horizontal */
-      white-space: nowrap; /* Evitar que las celdas se dividan */
+      display: block; 
+      overflow-x: auto; 
+      white-space: nowrap; 
     }
   
     th, td {
-      display: table-cell; /* Mantener el diseño tabular */
-      width: auto; /* Permitir que las celdas se ajusten a su contenido */
+      display: table-cell; 
+      width: auto; 
     }
   }
   

@@ -7,7 +7,7 @@ import { AppComponent } from 'src/app/app.component';
   styleUrls: ['perfil.page.scss'],
 })
 export class PerfilPage {
-  // Variables para almacenar los datos del usuario
+  // Variables para almacenar los datos del usuario que se mostrarán en Alert
   username: string = this.appComponent.username;
   nombre: string = '';
   apellido: string = '';
@@ -17,13 +17,13 @@ export class PerfilPage {
   constructor(private appComponent: AppComponent) {}
 
   ngOnInit() {
-    // Asignar el username desde AppComponent
+    // Asignar el username desde AppComponent, es decir, variable global
     this.username = this.appComponent.username;
     console.log(this.username);
   }
 
   submitForm() {
-    // Manejo del envío del formulario
+    // Muestra del formulario en el console Log para que verifiquemos que se envió
     console.log('Formulario enviado:', {
       username: this.username,
       nombre: this.nombre,

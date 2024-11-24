@@ -1,58 +1,95 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>SafeDriving App</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="car-sport-outline"></ion-icon>
+      SafeDriving App
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/login">Salir</ion-button> 
+      <ion-button routerLink="/login">
+        <ion-icon name="log-out-outline"></ion-icon>
+        Salir
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button routerLink="/home">Home</ion-button>
-      <ion-button routerLink="/historial">Historial</ion-button>
-      <ion-button routerLink="/checklist">CheckList</ion-button>
-      <ion-button routerLink="/perfil">Perfil</ion-button>
-    </ion-buttons>
+  <ion-toolbar color="light">
+    <ion-segment scrollable>
+      <ion-segment-button routerLink="/home">
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-segment-button>
+      <ion-segment-button routerLink="/historial">
+        <ion-icon name="time-outline"></ion-icon>
+        <ion-label>Historial</ion-label>
+      </ion-segment-button>
+      <ion-segment-button routerLink="/checklist">
+        <ion-icon name="clipboard-outline"></ion-icon>
+        <ion-label>CheckList</ion-label>
+      </ion-segment-button>
+      <ion-segment-button routerLink="/perfil">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <div class="content-wrapper">
-    <mat-card class="welcome-card">
-      <mat-card-header>
-        <mat-card-title class="welcome-title">Bienvenido a la Conducción con SafeDriving!</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="welcome-text">Estamos encantados de tenerte aquí. Explora las diferentes funcionalidades y mejora tu experiencia.</p>
-      </mat-card-content>
-    </mat-card>
+    <ion-card class="welcome-card animate__animated animate__fadeIn">
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">
+          <ion-text color="primary">
+            <h1>¡Bienvenido a SafeDriving!</h1>
+          </ion-text>
+        </ion-card-title>
+        <ion-card-subtitle class="ion-text-center">
+          Tu compañero en la conducción segura
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p class="welcome-text">Estamos encantados de tenerte aquí. Explora nuestras funcionalidades y mejora tu experiencia de conducción.</p>
+      </ion-card-content>
+    </ion-card>
 
-    <mat-card class="features-card">
-      <mat-card-content>
-        <ion-list>
-          <ion-item routerLink="/perfil" detail>
-            <ion-icon slot="start" name="information-circle"></ion-icon>
-            <ion-label>
-              <h2>Perfil</h2>
-              <p>Accede a tus datos y gestiona tu perfil.</p>
-            </ion-label>
-          </ion-item>
-          <ion-item routerLink="/checklist" detail>
-            <ion-icon slot="start" name="checkmark-circle"></ion-icon>
-            <ion-label>
-              <h2>CheckList</h2>
-              <p>Revisa tus tareas y mantente organizado.</p>
-            </ion-label>
-          </ion-item>
-          <ion-item routerLink="/historial" detail>
-            <ion-icon slot="start" name="archive"></ion-icon>
-            <ion-label>
-              <h2>Historial</h2>
-              <p>Consulta el historial de los checklist completados.</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </mat-card-content>
-    </mat-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="4">
+          <ion-card class="feature-card" routerLink="/perfil">
+            <ion-card-header>
+              <ion-icon name="person-circle" color="primary"></ion-icon>
+              <ion-card-title>Perfil</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Gestiona tu información personal y preferencias de usuario
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card class="feature-card" routerLink="/checklist">
+            <ion-card-header>
+              <ion-icon name="checkmark-circle" color="primary"></ion-icon>
+              <ion-card-title>CheckList</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Completa tu lista de verificación diaria para una conducción segura
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card class="feature-card" routerLink="/historial">
+            <ion-card-header>
+              <ion-icon name="time" color="primary"></ion-icon>
+              <ion-card-title>Historial</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Revisa el historial completo de tus registros anteriores
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>

@@ -1,36 +1,117 @@
-.table-container {
-    overflow-x: auto; 
-    width: 100%; 
+.historial-container {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+ion-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-bottom: 16px;
+  
+  ion-card-header {
+    background: var(--ion-color-light);
+    
+    ion-card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      ion-icon {
+        font-size: 1.4rem;
+      }
+    }
   }
+}
+
+.table-container {
+  overflow-x: auto;
+  margin: 0 -16px;
+  padding: 0 16px;
   
   table {
-    width: 100%; 
-    border-collapse: collapse; 
+    width: 100%;
+    border-collapse: collapse;
+    
+    th {
+      background-color: var(--ion-color-light);
+      color: var(--ion-color-dark);
+      font-weight: 600;
+      padding: 12px 16px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--ion-color-light);
+      
+      div {
+        margin: 4px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    }
   }
-  
-  th, td {
-    padding: 8px; 
-    text-align: left;
-    word-wrap: break-word;
-  }
-  
-  th {
-    background-color: #f1f1f1;
-  }
-  
+}
 
-  /* acá seguramos que la tabla no falle en el tamaño de teléfono */
+ion-segment {
+  --background: var(--ion-color-light);
+  padding: 4px;
+  
+  ion-segment-button {
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    
+    ion-icon {
+      font-size: 20px;
+    }
+    
+    ion-label {
+      font-size: 12px;
+    }
+  }
+}
 
-  @media (max-width: 768px) {
+ion-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    margin: 0;
+    padding: 0;
+    
     table {
-      display: block; 
-      overflow-x: auto; 
-      white-space: nowrap; 
-    }
-  
-    th, td {
-      display: table-cell; 
-      width: auto; 
+      td, th {
+        padding: 8px;
+        font-size: 0.9rem;
+      }
     }
   }
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  
+  ion-spinner {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
   

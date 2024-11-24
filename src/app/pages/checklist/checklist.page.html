@@ -1,127 +1,140 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>SafeDriving App</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="car-sport-outline"></ion-icon>
+      SafeDriving App
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/login">Salir</ion-button> 
+      <ion-button routerLink="/login">
+        <ion-icon name="log-out-outline"></ion-icon>
+        Salir
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button routerLink="/home">Home</ion-button>
-      <ion-button routerLink="/historial">Historial</ion-button>
-      <ion-button routerLink="/checklist">CheckList</ion-button>
-      <ion-button routerLink="/perfil">Perfil</ion-button>
-    </ion-buttons>
+  <ion-toolbar color="light">
+    <ion-segment scrollable>
+      <ion-segment-button routerLink="/home">
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-segment-button>
+      <ion-segment-button routerLink="/historial">
+        <ion-icon name="time-outline"></ion-icon>
+        <ion-label>Historial</ion-label>
+      </ion-segment-button>
+      <ion-segment-button routerLink="/checklist">
+        <ion-icon name="clipboard-outline"></ion-icon>
+        <ion-label>CheckList</ion-label>
+      </ion-segment-button>
+      <ion-segment-button routerLink="/perfil">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <!-- Overlay del Spinner que ocupa toda la pantalla -->
+<ion-content>
+  <div class="checklist-container">
+    <form (ngSubmit)="onSubmit()" class="checklist-form">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Información del Vehículo</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-icon name="car-outline" slot="start"></ion-icon>
+            <ion-label position="stacked">Patente del Vehículo</ion-label>
+            <ion-select [(ngModel)]="selectedPatente" name="patente" interface="action-sheet" required>
+              <ion-select-option *ngFor="let patente of patentes" [value]="patente">
+                {{ patente }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-icon name="location-outline"></ion-icon>
+            Ubicación
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Coordenadas</ion-label>
+            <ion-text>
+              Lat: {{ubicacion.latitude | number:'1.6-6'}}, 
+              Lng: {{ubicacion.longitude | number:'1.6-6'}}
+            </ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Dirección</ion-label>
+            <ion-text>{{ubicacion.direccion || 'Obteniendo ubicación...'}}</ion-text>
+          </ion-item>
+          <ion-button expand="block" 
+                    (click)="obtenerUbicacion()" 
+                    color="secondary"
+                    class="ion-margin-top">
+            <ion-icon name="refresh-outline" slot="start"></ion-icon>
+            Actualizar Ubicación
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Estado de Componentes</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="checklist-items">
+            <ng-container *ngFor="let item of checklistItems">
+              <ion-item class="checklist-item" [@fadeInOut]="true">
+                <ion-icon [name]="item.icon" slot="start" [@iconRotate]="item.status === 'Bueno'"></ion-icon>
+                <ion-label>
+                  <h2>{{ item.title }}</h2>
+                  <ion-select [(ngModel)]="item.status" [name]="item.name" required>
+                    <ion-select-option value="Bueno">Bueno</ion-select-option>
+                    <ion-select-option value="Malo">Malo</ion-select-option>
+                    <ion-select-option value="N/A">N/A</ion-select-option>
+                  </ion-select>
+                </ion-label>
+              </ion-item>
+
+              <ion-item *ngIf="needsComments(item.status)" class="comments-item">
+                <ion-textarea 
+                  [(ngModel)]="item.comments" 
+                  [name]="item.name + '_comments'"
+                  placeholder="Ingrese comentarios..."
+                  rows="2">
+                </ion-textarea>
+              </ion-item>
+            </ng-container>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="action-buttons">
+        <ion-button expand="block" 
+                  (click)="onSubmit()" 
+                  [disabled]="isSubmitting"
+                  color="primary"
+                  class="ion-margin-top">
+          <ion-spinner name="crescent" *ngIf="isSubmitting"></ion-spinner>
+          <span *ngIf="!isSubmitting">Guardar Checklist</span>
+          <span *ngIf="isSubmitting">Guardando...</span>
+        </ion-button>
+
+        <ion-button expand="block" color="medium" (click)="cleanForm()" [disabled]="isSubmitting">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Limpiar Formulario
+        </ion-button>
+      </div>
+    </form>
+  </div>
+
   <div *ngIf="isSubmitting" class="spinner-overlay">
     <mat-spinner diameter="60"></mat-spinner>
   </div>
-
-
-
-<ion-content padding>
-  <form (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-label>Seleccione Patente</ion-label>
-      <ion-select [(ngModel)]="selectedPatente" name="patente" required>
-        <ion-select-option *ngFor="let patente of patentes" [value]="patente">
-          {{ patente }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <!-- Bocina -->
-    <ion-item>
-      <ion-label>Bocina</ion-label>
-      <ion-select [(ngModel)]="bocinaStatus" name="bocinaStatus" required>
-        <ion-select-option value="Bueno">Bueno</ion-select-option>
-        <ion-select-option value="Malo">Malo</ion-select-option>
-        <ion-select-option value="N/A">N/A</ion-select-option>
-      </ion-select>
-      <ion-item *ngIf="needsComments(bocinaStatus)">
-        <ion-label position="floating">Comentarios</ion-label>
-        <ion-input [(ngModel)]="bocinaComments" name="bocinaComments" type="text"></ion-input>
-      </ion-item>
-    </ion-item>
-
-    <!-- Aire Acondicionado -->
-    <ion-item>
-      <ion-label>Aire Acondicionado</ion-label>
-      <ion-select [(ngModel)]="aireAcondicionadoStatus" name="aireAcondicionadoStatus" required>
-        <ion-select-option value="Bueno">Bueno</ion-select-option>
-        <ion-select-option value="Malo">Malo</ion-select-option>
-        <ion-select-option value="N/A">N/A</ion-select-option>
-      </ion-select>
-      <ion-item *ngIf="needsComments(aireAcondicionadoStatus)">
-        <ion-label position="floating">Comentarios</ion-label>
-        <ion-input [(ngModel)]="aireAcondicionadoComments" name="aireAcondicionadoComments" type="text"></ion-input>
-      </ion-item>
-    </ion-item>
-
-    <!-- Neumático Repuesto -->
-    <ion-item>
-      <ion-label>Neumático Repuesto</ion-label>
-      <ion-select [(ngModel)]="neumaticoRepuestoStatus" name="neumaticoRepuestoStatus" required>
-        <ion-select-option value="Bueno">Bueno</ion-select-option>
-        <ion-select-option value="Malo">Malo</ion-select-option>
-        <ion-select-option value="N/A">N/A</ion-select-option>
-      </ion-select>
-      <ion-item *ngIf="needsComments(neumaticoRepuestoStatus)">
-        <ion-label position="floating">Comentarios</ion-label>
-        <ion-input [(ngModel)]="neumaticoRepuestoComments" name="neumaticoRepuestoComments" type="text"></ion-input>
-      </ion-item>
-    </ion-item>
-
-    <!-- Air-Bag -->
-    <ion-item>
-      <ion-label>Air-Bag</ion-label>
-      <ion-select [(ngModel)]="airbagStatus" name="airbagStatus" required>
-        <ion-select-option value="Bueno">Bueno</ion-select-option>
-        <ion-select-option value="Malo">Malo</ion-select-option>
-        <ion-select-option value="N/A">N/A</ion-select-option>
-      </ion-select>
-      <ion-item *ngIf="needsComments(airbagStatus)">
-        <ion-label position="floating">Comentarios</ion-label>
-        <ion-input [(ngModel)]="airbagComments" name="airbagComments" type="text"></ion-input>
-      </ion-item>
-    </ion-item>
-
-    <!-- Baliza -->
-    <ion-item>
-      <ion-label>Baliza</ion-label>
-      <ion-select [(ngModel)]="balizaStatus" name="balizaStatus" required>
-        <ion-select-option value="Bueno">Bueno</ion-select-option>
-        <ion-select-option value="Malo">Malo</ion-select-option>
-        <ion-select-option value="N/A">N/A</ion-select-option>
-      </ion-select>
-      <ion-item *ngIf="needsComments(balizaStatus)">
-        <ion-label position="floating">Comentarios</ion-label>
-        <ion-input [(ngModel)]="balizaComments" name="balizaComments" type="text"></ion-input>
-      </ion-item>
-    </ion-item>
-
-    <!-- Radio Comunicacional -->
-    <ion-item>
-      <ion-label>Radio Comunicacional</ion-label>
-      <ion-select [(ngModel)]="radioStatus" name="radioStatus" required>
-        <ion-select-option value="Bueno">Bueno</ion-select-option>
-        <ion-select-option value="Malo">Malo</ion-select-option>
-        <ion-select-option value="N/A">N/A</ion-select-option>
-      </ion-select>
-      <ion-item *ngIf="needsComments(radioStatus)">
-        <ion-label position="floating">Comentarios</ion-label>
-        <ion-input [(ngModel)]="radioComments" name="radioComments" type="text"></ion-input>
-      </ion-item>
-    </ion-item>
-
-    <ion-button expand="full" type="submit">Enviar Checklist</ion-button>
-
-    <ion-button expand="full" color="light" (click)="cleanForm()">Limpiar</ion-button>
-
-  </form>
 </ion-content>

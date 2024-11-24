@@ -1,0 +1,223 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "jperez",
+      "password": "1234",
+      "firstName": "Juan",
+      "lastName": "Pérez",
+      "rut": "12.345.678-9",
+      "phone": "+56912345678",
+      "empresa": "Transportes ABC",
+      "cargo": "Conductor",
+      "licencia": "A4"
+    },
+    {
+      "id": "2",
+      "username": "mgonzalez",
+      "password": "1234",
+      "firstName": "María",
+      "lastName": "González",
+      "rut": "11.222.333-4",
+      "phone": "+56923456789",
+      "empresa": "Transportes ABC",
+      "cargo": "Supervisora",
+      "licencia": "A4"
+    },
+    {
+      "id": "3",
+      "username": "crodriguez",
+      "password": "1234",
+      "firstName": "Carlos",
+      "lastName": "Rodríguez",
+      "rut": "9.876.543-2",
+      "phone": "+56934567890",
+      "empresa": "Transportes ABC",
+      "cargo": "Conductor",
+      "licencia": "A5"
+    },
+    {
+      "id": "0e29",
+      "username": "Bernardo",
+      "password": "1234",
+      "firstName": "Bernardo",
+      "lastName": "Carvajal",
+      "rut": "21323-5",
+      "phone": "485456",
+      "empresa": "Test",
+      "cargo": "Conductor",
+      "licencia": "A4"
+    },
+    {
+      "id": "bd96",
+      "username": "Juanito",
+      "password": "1234",
+      "firstName": "Juanito",
+      "lastName": "Juan",
+      "rut": "213-23",
+      "phone": "32132131",
+      "empresa": "Codelco",
+      "cargo": "Supervisor",
+      "licencia": "A5"
+    }
+  ],
+  "checklists": [
+    {
+      "id": "1",
+      "userId": "1",
+      "fecha": "2024-03-20",
+      "hora": "08:30",
+      "patente": "ABCD12",
+      "ubicacion": {
+        "latitude": -33.45694,
+        "longitude": -70.64827,
+        "direccion": "Santiago, Región Metropolitana, Chile"
+      },
+      "items": [
+        {
+          "nombre": "Luces delanteras",
+          "estado": true
+        }
+      ],
+      "observaciones": "Todo en orden"
+    },
+    {
+      "id": "848c",
+      "userId": "1",
+      "fecha": "2024-11-24",
+      "hora": "18:52",
+      "patente": "WXYZ98",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": -33.4954496,
+        "longitude": -70.6084864,
+        "direccion": "Avenida Monseñor Carlos Casanueva, Población Vicuña Mackenna Sur, Macul, Provincia de Santiago, Santiago Metropolitan Region, 7821093, Chile"
+      },
+      "items": [
+        {
+          "nombre": "Bocina",
+          "estado": true
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": false
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": false
+        },
+        {
+          "nombre": "Airbag",
+          "estado": false
+        },
+        {
+          "nombre": "Baliza",
+          "estado": false
+        },
+        {
+          "nombre": "Radio",
+          "estado": false
+        }
+      ],
+      "observaciones": ""
+    },
+    {
+      "id": "98a8",
+      "userId": "1",
+      "fecha": "2024-11-24",
+      "hora": "18:57",
+      "patente": "WXYZ98",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": -33.4954496,
+        "longitude": -70.6084864,
+        "direccion": "Avenida Monseñor Carlos Casanueva, Población Vicuña Mackenna Sur, Macul, Provincia de Santiago, Santiago Metropolitan Region, 7821093, Chile"
+      },
+      "items": [
+        {
+          "nombre": "Bocina",
+          "estado": false
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": false
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": true
+        },
+        {
+          "nombre": "Airbag",
+          "estado": true
+        },
+        {
+          "nombre": "Baliza",
+          "estado": false
+        },
+        {
+          "nombre": "Radio",
+          "estado": true
+        }
+      ],
+      "observaciones": "Aire Acondicionado: Solo aire frio"
+    },
+    {
+      "id": "cece",
+      "userId": "1",
+      "fecha": "2024-11-24",
+      "hora": "22:47",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "items": [
+        {
+          "nombre": "Bocina",
+          "estado": false
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": true
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": false
+        },
+        {
+          "nombre": "Airbag",
+          "estado": true
+        },
+        {
+          "nombre": "Baliza",
+          "estado": true
+        },
+        {
+          "nombre": "Radio",
+          "estado": true
+        }
+      ],
+      "observaciones": "Bocina: test"
+    }
+  ],
+  "vehiculos": [
+    {
+      "id": "1",
+      "patente": "ABCD12",
+      "marca": "Toyota",
+      "modelo": "Hilux",
+      "año": 2022,
+      "tipo": "Camioneta"
+    },
+    {
+      "id": "2",
+      "patente": "WXYZ98",
+      "marca": "Mitsubishi",
+      "modelo": "Canter",
+      "año": 2023,
+      "tipo": "Camión"
+    }
+  ]
+}

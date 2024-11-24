@@ -1,39 +1,139 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppComponent } from '../app.component';
+import { ApiService } from '../services/api.service';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { StorageService } from '../services/storage.service';
+import { Storage } from '@ionic/storage-angular';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
-
+export class LoginPage {
   credentials = {
     username: '',
     password: ''
   };
 
-  isLoading = false; // Variable para controlar el estado de carga
+  newUser = {
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    rut: '',
+    phone: '',
+    empresa: '',
+    cargo: '',
+    licencia: ''
+  };
+  
+  isLoading = false;
+  showRegister = false;
+  hidePassword = true;
 
-  constructor(private navCtrl: NavController, private router: Router, private appComponent: AppComponent) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private storageService: StorageService
+  ) {}
 
-  ngOnInit() {}
+  toggleRegister() {
+    this.showRegister = !this.showRegister;
+  }
 
-  onSubmit() {
-    if (this.credentials.username && this.credentials.password) {
-      this.isLoading = true; // Iniciar el estado de carga con variable que declaramos más arriba.
-      // Almacenar el username en la variable pública de AppComponent que pasaremos a Perfil.
-      this.appComponent.username = this.credentials.username; 
-
-      // Simular un proceso de carga para que la barra funcione durante un tiempo determinado
-      setTimeout(() => {
-        // Redirigir a Home
-        this.router.navigate(['/home']);
-        console.log(this.appComponent.username);
-        this.isLoading = false; // Finalizar el estado de carga
-      }, 2000); // Simular un retraso de 2 segundos para carga de barra
+  async onRegister() {
+    if (!this.validateForm()) {
+      return;
     }
+
+    await this.showLoading('Registrando usuario...');
+
+    this.apiService.createUser(this.newUser).subscribe({
+      next: (response) => {
+        this.hideLoading();
+        this.presentToast('Usuario registrado exitosamente', 'success');
+        this.showRegister = false;
+        this.credentials.username = this.newUser.username;
+        this.credentials.password = this.newUser.password;
+      },
+      error: (error) => {
+        this.hideLoading();
+        console.error('Error en registro:', error);
+        this.presentToast('Error al registrar usuario', 'danger');
+      }
+    });
+  }
+
+  private validateForm(): boolean {
+    if (!this.newUser.username || !this.newUser.password) {
+      this.presentToast('Por favor complete todos los campos obligatorios', 'warning');
+      return false;
+    }
+    // Aquí puedes agregar más validaciones según necesites
+    return true;
+  }
+
+  async onSubmit() {
+    try {
+      await this.showLoading();
+      this.apiService.login(this.credentials.username, this.credentials.password)
+        .subscribe({
+          next: async (user) => {
+            if (user) {
+              await this.storageService.set('user', JSON.stringify(user));
+              await this.storageService.set('isLoggedIn', 'true');
+              this.hideLoading();
+              this.router.navigate(['/home']);
+            } else {
+              this.hideLoading();
+              this.presentToast('Usuario o contraseña incorrectos', 'danger');
+            }
+          },
+          error: (error) => {
+            this.hideLoading();
+            console.error('Error en login:', error);
+            this.presentToast('Error al intentar iniciar sesión', 'danger');
+          }
+        });
+    } catch (error: any) {
+      this.hideLoading();
+      console.error('Error general:', error);
+      this.presentToast('Error inesperado', 'danger');
+    }
+  }
+
+  async logout() {
+    await this.storageService.remove('user');
+    await this.storageService.remove('isLoggedIn');
+    this.router.navigate(['/login']);
+  }
+
+  private async showLoading(message: string = 'Verificando credenciales...') {
+    this.isLoading = true;
+    const loading = await this.loadingCtrl.create({
+      message: message,
+      spinner: 'circular',
+    });
+    await loading.present();
+  }
+
+  private hideLoading() {
+    this.isLoading = false;
+    this.loadingCtrl.dismiss();
+  }
+
+  private async presentToast(message: string, color: 'success' | 'warning' | 'danger') {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      color: color,
+      position: 'top',
+      cssClass: 'toast-custom'
+    });
+    toast.present();
   }
 }

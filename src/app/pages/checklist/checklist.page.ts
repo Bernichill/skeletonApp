@@ -6,6 +6,9 @@ import { GeoService } from '../../services/geo.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { Historial } from '../../interfaces/historial.interface';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { StorageService } from '../../services/storage.service';
+import { DatabaseService } from '../../services/database.service';
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-checklist',
@@ -26,9 +29,11 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ]
 })
 export class ChecklistPage implements OnInit {
+  dataSource: any = { data: [] };
 
   selectedPatente: string = '';
   patentes: string[] = [];
+  kilometraje: number = 0;
   ubicacion: {
     latitude: number;
     longitude: number;
@@ -39,13 +44,16 @@ export class ChecklistPage implements OnInit {
     direccion: ''
   };
   respuestas: any[] = [];
+  observaciones: string = '';
 
   constructor(
     private apiService: ApiService,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private router: Router,
-    private geoService: GeoService
+    private geoService: GeoService,
+    private storageService: StorageService,
+    private databaseService: DatabaseService
   ) {}
 
   async ngOnInit() {
@@ -152,58 +160,79 @@ export class ChecklistPage implements OnInit {
 
   isSubmitting: boolean = false;
   async onSubmit() {
-    if (!this.selectedPatente) {
-      const toast = await this.toastCtrl.create({
-        message: 'Por favor seleccione una patente',
-        duration: 2000,
-        color: 'warning'
-      });
-      toast.present();
-      return;
-    }
-
+    if (!this.validarFormulario()) return;
+    
     this.isSubmitting = true;
 
-    const checklistData = {
+    try {
+      const checklistData = await this.prepararDatosChecklist();
+
+      // 1. Guardar en API
+      try {
+        await this.apiService.createChecklist(checklistData).toPromise();
+        console.log('Guardado en API exitoso');
+      } catch (error) {
+        console.error('Error guardando en API:', error);
+        await this.presentToast('Error al guardar en servidor, se guardará localmente', 'warning');
+      }
+
+      // 2. Guardar en SQLite (siempre se guarda localmente)
+      try {
+        await this.databaseService.guardarChecklist(checklistData);
+        console.log('Guardado en SQLite exitoso');
+      } catch (error) {
+        console.error('Error guardando en SQLite:', error);
+        await this.presentToast('Error al guardar localmente', 'danger');
+        return;
+      }
+
+      await this.presentToast('Checklist guardado exitosamente', 'success');
+      this.resetFields();
+      this.router.navigate(['/historial']);
+
+    } catch (error) {
+      console.error('Error general:', error);
+      await this.presentToast('Error al procesar el checklist', 'danger');
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+
+  private async prepararDatosChecklist() {
+    const coordinates = await Geolocation.getCurrentPosition();
+    
+    return {
       userId: localStorage.getItem('userId') || '1',
       fecha: new Date().toISOString().split('T')[0],
-      hora: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+      hora: new Date().toLocaleTimeString('es-ES'),
       patente: this.selectedPatente,
-      kilometraje: 0,
-      ubicacion: this.ubicacion,
-      items: this.checklistItems.map(item => ({
+      kilometraje: this.kilometraje,
+      ubicacion: {
+        latitude: coordinates.coords.latitude,
+        longitude: coordinates.coords.longitude,
+        direccion: await this.geoService.getDireccion(
+          coordinates.coords.latitude,
+          coordinates.coords.longitude
+        )
+      },
+      listaVerificacion: this.checklistItems.map(item => ({
         nombre: item.title,
-        estado: item.status === 'Bueno'
+        estado: item.status === 'Bueno',
+        comentario: item.comments || ''
       })),
       observaciones: this.checklistItems
         .filter(item => item.status === 'Malo' && item.comments)
         .map(item => `${item.title}: ${item.comments}`)
         .join('. ')
     };
+  }
 
-    try {
-      await this.apiService.createChecklist(checklistData).toPromise();
-      
-      const toast = await this.toastCtrl.create({
-        message: 'Checklist guardado exitosamente',
-        duration: 2000,
-        color: 'success'
-      });
-      toast.present();
-      
-      this.resetFields();
-      this.router.navigate(['/historial']);
-    } catch (error) {
-      console.error('Error al guardar el checklist:', error);
-      const toast = await this.toastCtrl.create({
-        message: 'Error al guardar el checklist',
-        duration: 2000,
-        color: 'danger'
-      });
-      toast.present();
-    } finally {
-      this.isSubmitting = false;
+  private validarFormulario(): boolean {
+    if (!this.selectedPatente) {
+      this.presentToast('Por favor seleccione una patente', 'warning');
+      return false;
     }
+    return true;
   }
 
   resetFields() {
@@ -226,25 +255,65 @@ export class ChecklistPage implements OnInit {
     try {
       const coordinates = await Geolocation.getCurrentPosition();
       
-      const historial: Historial = {
-        fecha: new Date(),
-        respuestas: this.checklistItems,
+      const checklist = {
+        fecha: new Date().toISOString().split('T')[0],
+        hora: new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
+        patente: this.selectedPatente,
+        kilometraje: this.kilometraje,
         ubicacion: {
           latitude: coordinates.coords.latitude,
-          longitude: coordinates.coords.longitude
+          longitude: coordinates.coords.longitude,
+          direccion: await this.geoService.getDireccion(coordinates.coords.latitude, coordinates.coords.longitude)
+        },
+        items: this.checklistItems,
+        observaciones: this.checklistItems
+          .filter(item => item.status === 'Malo' && item.comments)
+          .map(item => `${item.title}: ${item.comments}`)
+          .join('. ')
+      };
+
+      // Guardar directamente en la API
+      this.apiService.createChecklist(checklist).subscribe({
+        next: () => {
+          this.presentToast('Checklist guardado correctamente', 'success');
+          this.resetFields();
+        },
+        error: (error) => {
+          console.error('Error al guardar checklist:', error);
+          this.presentToast('Error al guardar el checklist', 'danger');
         }
-      };
-      
-      // ... resto del código de guardado ...
-      
+      });
+
     } catch (error) {
-      console.error('Error al obtener ubicación:', error);
-      // Guardar sin ubicación
-      const historial: Historial = {
-        fecha: new Date(),
-        respuestas: this.checklistItems
-      };
-      // ... resto del código de guardado ...
+      console.error('Error:', error);
+      this.presentToast('Error al procesar el checklist', 'danger');
+    }
+  }
+
+  async logout() {
+    await this.storageService.remove('user');
+    await this.storageService.remove('isLoggedIn');
+    
+    console.log('Cerrando sesión...');
+    
+    this.router.navigate(['/login']);
+  }
+
+  async loadRegistros() {
+    try {
+      const localData = await this.databaseService.obtenerChecklists();
+      console.log('Datos locales:', localData); 
+      this.dataSource.data = localData;
+      
+      const networkStatus = await Network.getStatus();
+      if (networkStatus.connected) {
+        const apiData = await this.apiService.getAllChecklists().toPromise();
+        console.log('Datos API:', apiData); 
+        this.dataSource.data = apiData;
+      }
+    } catch (error) {
+      console.error('Error cargando registros:', error);
+      await this.presentToast('Error al cargar registros', 'danger');
     }
   }
 }

@@ -3,22 +3,21 @@ import { ApiService } from '../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
-export interface HistorialItem {
-  id: string;
-  userId: string;
+export interface ItemHistorial {
   fecha: string;
   hora: string;
   patente: string;
   ubicacion?: {
+    direccion: string;
     latitude: number;
     longitude: number;
-    direccion?: string;
   };
-  items: {
+  items: Array<{
     nombre: string;
     estado: boolean;
-  }[];
-  observaciones: string;
+    comentario?: string;
+  }>;
+  observaciones?: string;
 }
 
 @Component({
@@ -40,7 +39,7 @@ export interface HistorialItem {
 })
 export class HistorialPage implements OnInit {
   displayedColumns: string[] = ['fecha', 'hora', 'patente', 'ubicacion', 'items', 'observaciones'];
-  dataSource = new MatTableDataSource<HistorialItem>([]);
+  dataSource = new MatTableDataSource<ItemHistorial>([]);
   isLoading = false;
 
   constructor(public apiService: ApiService) {}
@@ -56,7 +55,8 @@ export class HistorialPage implements OnInit {
   loadRegistros() {
     this.isLoading = true;
     this.apiService.getAllChecklists().subscribe({
-      next: (checklists: HistorialItem[]) => {
+      next: (checklists: ItemHistorial[]) => {
+        console.log('Checklists recibidos:', checklists);
         this.dataSource.data = checklists.reverse();
         this.isLoading = false;
       },

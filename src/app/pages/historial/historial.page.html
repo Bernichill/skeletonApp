@@ -43,72 +43,49 @@
   </div>
 
   <div class="historial-container">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>
-          <ion-icon name="list-outline"></ion-icon>
-          Historial de Checklists
-        </ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="table-container">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [@tableAnimation]="true" *ngIf="!isLoading">
+    <div class="cards-grid" [@staggerAnimation]="dataSource.data.length">
+      <ion-card *ngFor="let item of dataSource.data" class="historial-card animate__animated animate__fadeIn">
+        <ion-card-header>
+          <ion-card-subtitle>
+            <ion-icon name="calendar-outline"></ion-icon> {{item.fecha}} - {{item.hora}}
+          </ion-card-subtitle>
+          <ion-card-title>
+            <ion-icon name="car-outline"></ion-icon> {{item.patente}}
+          </ion-card-title>
+        </ion-card-header>
 
-            <!-- Fecha Column -->
-            <ng-container matColumnDef="fecha">
-              <th mat-header-cell *matHeaderCellDef> Fecha </th>
-              <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
-            </ng-container>
+        <ion-card-content>
+          <div class="location-info" *ngIf="item.ubicacion">
+            <ion-chip color="primary">
+              <ion-icon name="location-outline"></ion-icon>
+              <ion-label>{{item.ubicacion.direccion || 'Ubicación registrada'}}</ion-label>
+            </ion-chip>
+          </div>
 
-            <!-- Hora Column -->
-            <ng-container matColumnDef="hora">
-              <th mat-header-cell *matHeaderCellDef> Hora </th>
-              <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
-            </ng-container>
+          <div class="items-grid">
+            <ion-item *ngFor="let verificacion of item.items">
+              <ion-icon 
+                [name]="verificacion.estado ? 'checkmark-circle' : 'close-circle'"
+                [color]="verificacion.estado ? 'success' : 'danger'"
+                slot="start">
+              </ion-icon>
+              <ion-label>
+                <h3>{{verificacion.nombre}}</h3>
+                <p *ngIf="!verificacion.estado && verificacion.comentario">
+                  {{verificacion.comentario}}
+                </p>
+              </ion-label>
+            </ion-item>
+          </div>
 
-            <!-- Patente Column -->
-            <ng-container matColumnDef="patente">
-              <th mat-header-cell *matHeaderCellDef> Patente </th>
-              <td mat-cell *matCellDef="let element"> {{element.patente}} </td>
-            </ng-container>
-
-            <!-- Ubicación Column -->
-            <ng-container matColumnDef="ubicacion">
-              <th mat-header-cell *matHeaderCellDef> Ubicación </th>
-              <td mat-cell *matCellDef="let element">
-                <div *ngIf="element.ubicacion">
-                  Lat: {{element.ubicacion.latitude | number:'1.6-6'}}<br>
-                  Lng: {{element.ubicacion.longitude | number:'1.6-6'}}<br>
-                  {{element.ubicacion.direccion}}
-                </div>
-              </td>
-            </ng-container>
-
-            <!-- Items Column -->
-            <ng-container matColumnDef="items">
-              <th mat-header-cell *matHeaderCellDef> Items Revisados </th>
-              <td mat-cell *matCellDef="let element"> 
-                <div *ngFor="let item of element.items">
-                  {{item.nombre}}: 
-                  <ion-badge [color]="item.estado ? 'success' : 'danger'">
-                    {{item.estado ? 'OK' : 'No OK'}}
-                  </ion-badge>
-                </div>
-              </td>
-            </ng-container>
-
-            <!-- Observaciones Column -->
-            <ng-container matColumnDef="observaciones">
-              <th mat-header-cell *matHeaderCellDef> Observaciones </th>
-              <td mat-cell *matCellDef="let element"> {{element.observaciones}} </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-          </table>
-        </div>
-      </ion-card-content>
-    </ion-card>
+          <div class="observaciones" *ngIf="item.observaciones">
+            <ion-note color="medium">
+              <ion-icon name="chatbox-outline"></ion-icon>
+              {{item.observaciones}}
+            </ion-note>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 </ion-content>

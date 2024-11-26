@@ -1,5 +1,5 @@
 export interface Checklist {
-  id: string;
+  id?: string;
   userId: string;
   fecha: string;
   hora: string;
@@ -10,8 +10,12 @@ export interface Checklist {
     longitude: number;
     direccion?: string;
   };
-  items: ChecklistItem[];
-  observaciones: string;
+  listaVerificacion: Array<{
+    nombre: string;
+    estado: boolean;
+    comentario?: string;
+  }>;
+  observaciones?: string;
 }
 
 export interface ChecklistItem {

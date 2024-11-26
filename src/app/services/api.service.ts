@@ -2,21 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
 import { User } from '../interfaces/user.interface';
-import { Checklist } from '../interfaces/checklist.interface';
-import { BehaviorSubject } from 'rxjs';
 import { Vehiculo } from '../interfaces/vehiculo.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://10.0.2.2:3000';
-  private historySubject = new BehaviorSubject<any[]>([]);
-
-  constructor(private http: HttpClient) {
-    // Cargar historial existente
-    this.loadHistory();
-  }
+  
+  //private apiUrl = 'http://Localhost:3000'; //Para desarrollo web
+  private apiUrl = 'http://10.0.2.2:3000'; //Para Android
+  
+  constructor(private http: HttpClient) {}
 
   // Servicios para Usuarios
   getAllUsers(): Observable<User[]> {
@@ -45,7 +41,9 @@ export class ApiService {
 
   // Servicios para Checklists
   getAllChecklists(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/checklists`);
+    return this.http.get<any[]>(`${this.apiUrl}/checklists`).pipe(
+      tap(data => console.log('Datos recibidos:', data))
+    );
   }
 
   getChecklistById(id: string): Observable<any> {
@@ -107,45 +105,6 @@ export class ApiService {
       );
   }
 
-  // Métodos para el historial
-  private loadHistory() {
-    const savedHistory = localStorage.getItem('chatHistory');
-    if (savedHistory) {
-      this.historySubject.next(JSON.parse(savedHistory));
-    }
-  }
-
-  getHistory(): Observable<any[]> {
-    return this.historySubject.asObservable();
-  }
-
-  private addToHistory(question: string, response: any) {
-    const currentHistory = this.historySubject.value;
-    const historyItem = {
-      pregunta: question,
-      respuesta: response,
-      timestamp: new Date().toISOString()
-    };
-    
-    const updatedHistory = [...currentHistory, historyItem];
-    this.historySubject.next(updatedHistory);
-    localStorage.setItem('chatHistory', JSON.stringify(updatedHistory));
-  }
-
-  clearHistory() {
-    this.historySubject.next([]);
-    localStorage.removeItem('chatHistory');
-  }
-
-  // Modificar el método existente de envío de mensajes para incluir el historial
-  sendMessage(message: string): Observable<any> {
-    return this.http.post<any>('TU_URL_API', { message }).pipe(
-      tap(response => {
-        this.addToHistory(message, response);
-      })
-    );
-  }
-
   // Método para obtener las patentes
   getPatentes(): Observable<string[]> {
     return this.http.get<Vehiculo[]>(`${this.apiUrl}/vehiculos`).pipe(
@@ -155,15 +114,11 @@ export class ApiService {
 
   getCurrentUser(): Observable<User> {
     // Obtener el ID o username del usuario actual del localStorage
-    const currentUserId = localStorage.getItem('userId'); // o 'username' según hayas guardado
+    const currentUserId = localStorage.getItem('userId');
     
     if (!currentUserId) {
       throw new Error('No hay usuario autenticado');
     }
-    
-    // Usar el endpoint existente getUserById o getUserByUsername
     return this.http.get<User>(`${this.apiUrl}/users/${currentUserId}`);
-    // O si prefieres usar username:
-    // return this.getUserByUsername(currentUserId);
   }
 }

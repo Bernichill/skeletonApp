@@ -73,7 +73,6 @@ export class LoginPage {
       this.presentToast('Por favor complete todos los campos obligatorios', 'warning');
       return false;
     }
-    // Aquí puedes agregar más validaciones según necesites
     return true;
   }
 
@@ -84,8 +83,8 @@ export class LoginPage {
         .subscribe({
           next: async (user) => {
             if (user) {
-              await this.storageService.set('user', JSON.stringify(user));
-              await this.storageService.set('isLoggedIn', 'true');
+              await this.storageService.set('user', user);
+              await this.storageService.set('isLoggedIn', true);
               this.hideLoading();
               this.router.navigate(['/home']);
             } else {
@@ -95,20 +94,17 @@ export class LoginPage {
           },
           error: (error) => {
             this.hideLoading();
-            console.error('Error en login:', error);
-            this.presentToast('Error al intentar iniciar sesión', 'danger');
+            this.presentToast('Error al iniciar sesión', 'danger');
           }
         });
-    } catch (error: any) {
+    } catch (error) {
       this.hideLoading();
-      console.error('Error general:', error);
       this.presentToast('Error inesperado', 'danger');
     }
   }
 
   async logout() {
-    await this.storageService.remove('user');
-    await this.storageService.remove('isLoggedIn');
+    await this.storageService.clear();
     this.router.navigate(['/login']);
   }
 

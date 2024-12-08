@@ -8,13 +8,20 @@ import { Checklist } from '../interfaces/checklist.interface';
 export class DatabaseService {
   private sqlite: SQLiteConnection;
   private db!: SQLiteDBConnection;
+  private initialized = false;
 
   constructor() {
     this.sqlite = new SQLiteConnection(CapacitorSQLite);
     this.init();
   }
 
+  isInitialized(): boolean {
+    return this.initialized;
+  }
+
   async init() {
+    if (this.initialized) return;
+    
     try {
       this.db = await this.sqlite.createConnection(
         'safedriving_db',
@@ -24,6 +31,7 @@ export class DatabaseService {
         false
       );
       await this.db.open();
+      this.initialized = true;
 
       const schema = `
         CREATE TABLE IF NOT EXISTS checklists (
@@ -53,6 +61,8 @@ export class DatabaseService {
       console.log('Base de datos inicializada correctamente');
     } catch (error) {
       console.error('Error inicializando base de datos:', error);
+      this.initialized = false;
+      throw error;
     }
   }
 
@@ -85,18 +95,20 @@ export class DatabaseService {
       ];
 
       const result = await this.db.run(query, values);
-      console.log('Checklist guardado:', result);
-
       const checklistId = result.changes?.lastId;
+
       if (!checklistId) {
         throw new Error('No se pudo obtener el ID del checklist');
       }
 
-      // 2. Insertar items del checklist
-      for (const item of checklist.listaVerificacion) {
+      // Guardar los items
+      for (const item of checklist.items) {
         await this.db.run(`
           INSERT INTO items_checklist (
-            checklist_id, nombre, estado, comentario
+            checklist_id,
+            nombre,
+            estado,
+            comentario
           ) VALUES (?, ?, ?, ?)
         `, [checklistId, item.nombre, item.estado ? 1 : 0, item.comentario]);
       }

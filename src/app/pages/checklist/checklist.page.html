@@ -44,10 +44,12 @@
         <ion-card-content>
           <ion-item>
             <ion-icon name="car-outline" slot="start"></ion-icon>
-            <ion-label position="stacked">Patente del Vehículo</ion-label>
-            <ion-select [(ngModel)]="selectedPatente" name="patente" interface="action-sheet" required>
+            <ion-label position="stacked">
+              Patente <ion-text color="danger">*</ion-text>
+            </ion-label>
+            <ion-select [(ngModel)]="selectedPatente" interface="action-sheet" placeholder="Seleccione una patente">
               <ion-select-option *ngFor="let patente of patentes" [value]="patente">
-                {{ patente }}
+                {{patente}}
               </ion-select-option>
             </ion-select>
           </ion-item>
@@ -93,21 +95,23 @@
               <ion-item class="checklist-item" [@fadeInOut]="true">
                 <ion-icon [name]="item.icon" slot="start" [@iconRotate]="item.status === 'Bueno'"></ion-icon>
                 <ion-label>
-                  <h2>{{ item.title }}</h2>
-                  <ion-select [(ngModel)]="item.status" [name]="item.name" required>
-                    <ion-select-option value="Bueno">Bueno</ion-select-option>
-                    <ion-select-option value="Malo">Malo</ion-select-option>
-                    <ion-select-option value="N/A">N/A</ion-select-option>
-                  </ion-select>
+                  {{item.title}} <ion-text color="danger">*</ion-text>
                 </ion-label>
+                <ion-select [(ngModel)]="item.status" 
+                            interface="action-sheet" 
+                            placeholder="Seleccione estado"
+                            (ionChange)="checklistItemChanged(item)">
+                  <ion-select-option value="Bueno">Bueno</ion-select-option>
+                  <ion-select-option value="Malo">Malo</ion-select-option>
+                </ion-select>
               </ion-item>
 
-              <ion-item *ngIf="needsComments(item.status)" class="comments-item">
-                <ion-textarea 
-                  [(ngModel)]="item.comments" 
-                  [name]="item.name + '_comments'"
-                  placeholder="Ingrese comentarios..."
-                  rows="2">
+              <ion-item *ngIf="needsComments(item.status)" [@fadeInOut]="true">
+                <ion-label position="stacked">
+                  Comentarios <ion-text color="danger">*</ion-text>
+                </ion-label>
+                <ion-textarea [(ngModel)]="item.comments" 
+                              placeholder="Describa el problema...">
                 </ion-textarea>
               </ion-item>
             </ng-container>

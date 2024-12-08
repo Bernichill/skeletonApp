@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.checklist.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+    <name>SafeDriving App</name>
+    <description>Aplicación de checklist para vehículos</description>
+    <author email="bernardo.carvajal.r@gmail.com">Bernardo Carvajal</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+</widget> 

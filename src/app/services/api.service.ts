@@ -9,8 +9,8 @@ import { Vehiculo } from '../interfaces/vehiculo.interface';
 })
 export class ApiService {
   
-  //private apiUrl = 'http://Localhost:3000'; //Para desarrollo web
-  private apiUrl = 'http://10.0.2.2:3000'; //Para Android
+  private apiUrl = 'http://Localhost:3000'; //Para desarrollo web
+  //private apiUrl = 'http://10.0.2.2:3000'; //Para Android
   
   constructor(private http: HttpClient) {}
 

@@ -4,7 +4,6 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { GeoService } from '../../services/geo.service';
 import { Geolocation } from '@capacitor/geolocation';
-import { Historial } from '../../interfaces/historial.interface';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { StorageService } from '../../services/storage.service';
 import { DatabaseService } from '../../services/database.service';
@@ -215,7 +214,7 @@ export class ChecklistPage implements OnInit {
           coordinates.coords.longitude
         )
       },
-      listaVerificacion: this.checklistItems.map(item => ({
+      items: this.checklistItems.map(item => ({
         nombre: item.title,
         estado: item.status === 'Bueno',
         comentario: item.comments || ''
@@ -228,10 +227,30 @@ export class ChecklistPage implements OnInit {
   }
 
   private validarFormulario(): boolean {
+    // Validar patente
     if (!this.selectedPatente) {
       this.presentToast('Por favor seleccione una patente', 'warning');
       return false;
     }
+
+    // Validar que todos los ítems tengan un estado seleccionado
+    const itemsSinCompletar = this.checklistItems.filter(item => !item.status);
+    if (itemsSinCompletar.length > 0) {
+      const itemsFaltantes = itemsSinCompletar.map(item => item.title).join(', ');
+      this.presentToast(`Por favor complete el estado de: ${itemsFaltantes}`, 'warning');
+      return false;
+    }
+
+    // Validar comentarios para items en estado 'Malo'
+    const itemsMalosSinComentario = this.checklistItems.filter(
+      item => item.status === 'Malo' && !item.comments?.trim()
+    );
+    if (itemsMalosSinComentario.length > 0) {
+      const itemsFaltantes = itemsMalosSinComentario.map(item => item.title).join(', ');
+      this.presentToast(`Por favor agregue comentarios para los items en mal estado: ${itemsFaltantes}`, 'warning');
+      return false;
+    }
+
     return true;
   }
 
@@ -252,6 +271,10 @@ export class ChecklistPage implements OnInit {
   }
 
   async guardarHistorial() {
+    if (!this.validarFormulario()) {
+      return;
+    }
+
     try {
       const coordinates = await Geolocation.getCurrentPosition();
       
@@ -265,22 +288,43 @@ export class ChecklistPage implements OnInit {
           longitude: coordinates.coords.longitude,
           direccion: await this.geoService.getDireccion(coordinates.coords.latitude, coordinates.coords.longitude)
         },
-        items: this.checklistItems,
+        items: this.checklistItems.map(item => ({
+          nombre: item.title,
+          estado: item.status === 'Bueno',
+          comentario: item.comments || ''
+        })),
         observaciones: this.checklistItems
           .filter(item => item.status === 'Malo' && item.comments)
           .map(item => `${item.title}: ${item.comments}`)
           .join('. ')
       };
 
-      // Guardar directamente en la API
+      // Guardar en la API
       this.apiService.createChecklist(checklist).subscribe({
-        next: () => {
+        next: async () => {
+          // Guardar localmente con la misma estructura que la API
+          await this.databaseService.guardarChecklist({
+            ...checklist,
+            userId: localStorage.getItem('userId') || '1'
+          });
+          
           this.presentToast('Checklist guardado correctamente', 'success');
           this.resetFields();
         },
-        error: (error) => {
-          console.error('Error al guardar checklist:', error);
-          this.presentToast('Error al guardar el checklist', 'danger');
+        error: async (error) => {
+          console.error('Error al guardar en API:', error);
+          // Si falla la API, guardamos solo localmente
+          try {
+            await this.databaseService.guardarChecklist({
+              ...checklist,
+              userId: localStorage.getItem('userId') || '1'
+            });
+            this.presentToast('Checklist guardado localmente', 'success');
+            this.resetFields();
+          } catch (localError) {
+            console.error('Error al guardar localmente:', localError);
+            this.presentToast('Error al guardar el checklist', 'danger');
+          }
         }
       });
 
@@ -314,6 +358,12 @@ export class ChecklistPage implements OnInit {
     } catch (error) {
       console.error('Error cargando registros:', error);
       await this.presentToast('Error al cargar registros', 'danger');
+    }
+  }
+
+  checklistItemChanged(item: any) {
+    if (item.status !== 'Malo') {
+      item.comments = '';
     }
   }
 }

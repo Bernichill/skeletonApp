@@ -43,7 +43,7 @@
   </div>
 
   <div class="historial-container">
-    <div class="cards-grid" [@staggerAnimation]="dataSource.data.length">
+    <div class="cards-grid" [@tableAnimation]="dataSource.data.length">
       <ion-card *ngFor="let item of dataSource.data" class="historial-card animate__animated animate__fadeIn">
         <ion-card-header>
           <ion-card-subtitle>

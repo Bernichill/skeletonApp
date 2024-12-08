@@ -388,6 +388,374 @@
         }
       ],
       "observaciones": "Radio: no se escucha"
+    },
+    {
+      "id": "82b4",
+      "userId": "1",
+      "fecha": "2024-11-26",
+      "hora": "1:01:31",
+      "patente": "WXYZ98",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "listaVerificacion": [
+        {
+          "nombre": "Bocina",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": false,
+          "comentario": "Test"
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": true,
+          "comentario": ""
+        }
+      ],
+      "observaciones": "Aire Acondicionado: Test"
+    },
+    {
+      "id": "35f1",
+      "userId": "1",
+      "fecha": "2024-12-08",
+      "hora": "0:38:16",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "listaVerificacion": [
+        {
+          "nombre": "Bocina",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": true,
+          "comentario": ""
+        }
+      ],
+      "observaciones": ""
+    },
+    {
+      "id": "5701",
+      "userId": "1",
+      "fecha": "2024-12-08",
+      "hora": "0:41:00",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "listaVerificacion": [
+        {
+          "nombre": "Bocina",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": false,
+          "comentario": ""
+        }
+      ],
+      "observaciones": ""
+    },
+    {
+      "id": "770d",
+      "userId": "1",
+      "fecha": "2024-12-08",
+      "hora": "0:43:56",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "listaVerificacion": [
+        {
+          "nombre": "Bocina",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": false,
+          "comentario": ""
+        }
+      ],
+      "observaciones": ""
+    },
+    {
+      "id": "30eb",
+      "userId": "1",
+      "fecha": "2024-12-08",
+      "hora": "0:46:46",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "listaVerificacion": [
+        {
+          "nombre": "Bocina",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": false,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": false,
+          "comentario": ""
+        }
+      ],
+      "observaciones": ""
+    },
+    {
+      "id": "1421",
+      "userId": "1",
+      "fecha": "2024-12-08",
+      "hora": "0:47:20",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "listaVerificacion": [
+        {
+          "nombre": "Bocina",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": true,
+          "comentario": ""
+        }
+      ],
+      "observaciones": ""
+    },
+    {
+      "id": "769b",
+      "userId": "1",
+      "fecha": "2024-12-08",
+      "hora": "0:49:35",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "items": [
+        {
+          "nombre": "Bocina",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": true,
+          "comentario": ""
+        }
+      ],
+      "observaciones": ""
+    },
+    {
+      "id": "6e6f",
+      "userId": "1",
+      "fecha": "2024-12-08",
+      "hora": "0:52:51",
+      "patente": "ABCD12",
+      "kilometraje": 0,
+      "ubicacion": {
+        "latitude": 37.42342342342342,
+        "longitude": -122.08395287867832,
+        "direccion": "Google Building 40, 40, Amphitheatre Parkway, Mountain View, Santa Clara County, California, 94043, United States"
+      },
+      "items": [
+        {
+          "nombre": "Bocina",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Aire Acondicionado",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Neumático Repuesto",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Airbag",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Baliza",
+          "estado": true,
+          "comentario": ""
+        },
+        {
+          "nombre": "Radio",
+          "estado": true,
+          "comentario": ""
+        }
+      ],
+      "observaciones": ""
     }
   ],
   "vehiculos": [
